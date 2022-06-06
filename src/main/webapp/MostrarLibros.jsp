@@ -1,5 +1,7 @@
+<%@page import="com.mysql.cj.jdbc.DatabaseMetaData"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
+<%@page import="com.arquitecturajava.DataBaseHelper"%>
 <%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.Statement" %>
 <%@ page import="java.sql.DriverManager" %>
@@ -14,40 +16,25 @@ pageEncoding="UTF-8"%>
 </head>
 <body>
 <%
-	Connection conexion=null;
-	Statement sentencia=null;
+
 	ResultSet rs=null;
 	try{
-		Class.forName("om.mysql.jdbc.Driver");
-		conexion =
-				DriverManager.getConnection("jdbc:mysql://localhost/arquitecturajava",
-				"root",
-				"java");
-		sentencia=conexion.createStatement();
+		
 		String consultaSQL = "select isbn,titulo,categoria from Libros";
-		rs = sentencia.executeQuery(consultaSQL);
-		while(rs.next()){%>
+		DataBaseHelper helper=new DataBaseHelper();
+		rs = helper.seleccionarRegistros(consultaSQL);
+		while(rs.next()) { %>
 			<%=rs.getString("isbn")%>
 			<%=rs.getString("titulo")%>
 			<%=rs.getString("categoria")%>
-			<br/>
-		<%}
-	}catch(ClassNotFoundException e){
-		System.out.println("Error en la carga del driver"+e.getMessage());
+		<br/>
+		<% }
 	}catch(SQLException e){
 		System.out.println("Error en la carga del driver"+e.getMessage());
 	}finally{
 		if(rs != null){
 			try {rs.close();} catch (SQLException e)
 			{System.out.println("Error cerrando el resultset" + e.getMessage());}
-		}
-		if(sentencia != null){
-			try {sentencia.close();} catch (SQLException e)
-			{System.out.println("Error cerrando al sentencia" + e.getMessage());}
-		}
-		if(conexion != null){
-			try {conexion.close();} catch (SQLException e)
-			{System.out.println("Error cerrando al sentencia" + e.getMessage());}
 		}
 	}
 %>

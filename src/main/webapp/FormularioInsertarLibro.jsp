@@ -9,7 +9,7 @@
 <title>Formulario Libro</title>
 </head>
 <body>
-	<form action="destino.html" onsubmit="return validacion();">
+	<form id="formularioInsercion" action="InsertarLibro.jsp" onsubmit="return validacion();">
 	<h1>Formulario alta Libro</h1>
 	<fieldset>
 	<legend>Formulario alta libro</legend>

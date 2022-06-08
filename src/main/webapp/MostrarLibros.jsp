@@ -1,7 +1,11 @@
+<%@page import="java.util.List"%>
+<%@page import="com.arquitecturajava.connectors.repositories.jdbc.Libro"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="jakarta.servlet.jsp.tagext.TryCatchFinally"%>
 <%@page import="com.mysql.cj.jdbc.DatabaseMetaData"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
-<%@page import="com.arquitecturajava.DataBaseHelper"%>
+<%@page import="com.arquitectura.connectors.DataBaseHelper"%>
 <%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.Statement" %>
 <%@ page import="java.sql.DriverManager" %>
@@ -15,28 +19,30 @@ pageEncoding="UTF-8"%>
 <title>Lista de Libros</title>
 </head>
 <body>
-<%
 
-	ResultSet rs=null;
-	try{
-		
-		String consultaSQL = "select isbn,titulo,categoria from Libros";
-		DataBaseHelper helper=new DataBaseHelper();
-		rs = helper.seleccionarRegistros(consultaSQL);
-		while(rs.next()) { %>
-			<%=rs.getString("isbn")%>
-			<%=rs.getString("titulo")%>
-			<%=rs.getString("categoria")%>
-		<br/>
-		<% }
-	}catch(SQLException e){
-		System.out.println("Error en la carga del driver"+e.getMessage());
-	}finally{
-		if(rs != null){
-			try {rs.close();} catch (SQLException e)
-			{System.out.println("Error cerrando el resultset" + e.getMessage());}
-		}
-	}
+<select name="categoria">
+<% 
+	List<String> listaDeCategorias=null;
+	listaDeCategorias=Libro.buscarTodasLasCategorias();
+	for(String categoria:listaDeCategorias) { %>
+		<option value="<%=categoria%>">
+			<%=categoria%>
+		</option>
+	<% } 
+
+%>
+</select>
+
+
+<%
+	List<Libro> listaDelibros = null; // revisar
+	listaDelibros = Libro.buscarTodos();
+	for(Libro libro:listaDelibros){%>
+		<%=libro.getIsbn()%>
+		<%=libro.getTitulo()%>
+		<%=libro.getCategoria()%>
+		</br>
+	<%}
 %>
 <a href="FormularioInsertarLibro.jsp">Insertar Libro</a>
 </body></html>

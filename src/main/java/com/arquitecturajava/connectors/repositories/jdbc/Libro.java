@@ -50,7 +50,7 @@ public class Libro {
 		return listaDeCategorias;
 		}
 	
-	public void insertar(){
+	public void insertar() throws ClassNotFoundException,SQLException{
 		String consultaSQL = "insert into Libros (isbn,titulo,categoria) values";
 		consultaSQL += "('" + this.isbn + "','" + this.titulo + "','" + this.categoria + "')";
 		DataBaseHelper<Libro> helper = new DataBaseHelper<Libro>();
@@ -64,7 +64,7 @@ public class Libro {
 		return listaDeLibros;
 	}
 	
-	public void borrar() {
+	public void borrar() throws ClassNotFoundException,SQLException{
 		String consultaSQL = "delete from Libros where isbn='"+ this.isbn+"'";
 		DataBaseHelper<Libro> helper = new DataBaseHelper<Libro>();
 		helper.modificarRegistro(consultaSQL);
@@ -75,7 +75,7 @@ public class Libro {
 		List<Libro> listaDeLibros=helper.seleccionarRegistros(consultaSQL, Libro.class);
 		return listaDeLibros.get(0);
 	}
-	public void salvar(){
+	public void salvar()throws ClassNotFoundException,SQLException{
 		String consultaSQL="update Libros set titulo='"+ this.titulo+"',categoria='"+ categoria+"' where isbn='"+ isbn+"'";
 		DataBaseHelper<Libro> helper=new DataBaseHelper<Libro>();
 		helper.modificarRegistro(consultaSQL);

@@ -15,7 +15,7 @@ public class DataBaseHelper<T> {
 	private static final String USUARIO ="root";
 	private static final String CLAVE ="";
 	
-	public int modificarRegistro(String consultaSQL) throws ClassNotFoundException,SQLException{
+	public int modificarRegistro(String consultaSQL) throws DataBaseException{
 
 		Connection conexion = null;
 		Statement sentencia = null;
@@ -33,10 +33,11 @@ public class DataBaseHelper<T> {
 			filasAfectadas = sentencia.executeUpdate(consultaSQL);
 
 		} catch (ClassNotFoundException e) {
-			System.out.println("Error de acceso al driver" + e.getMessage());
+			System.out.println("Clse no encontrada" + e.getMessage());
+			throw new DataBaseException("Clase no encontrada",e);
 		} catch (SQLException e) {
 			System.out.println("Error de SQL" + e.getMessage());
-			throw e;
+			throw new DataBaseException("Error sql",e);
 		} finally {
 
 			if (sentencia != null) {

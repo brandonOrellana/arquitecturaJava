@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.arquitectura.connectors.DataBaseException;
 import com.arquitectura.connectors.DataBaseHelper;
 
 public class Libro {
@@ -50,7 +51,7 @@ public class Libro {
 		return listaDeCategorias;
 		}
 	
-	public void insertar() throws ClassNotFoundException,SQLException{
+	public void insertar() throws DataBaseException{
 		String consultaSQL = "insert into Libros (isbn,titulo,categoria) values";
 		consultaSQL += "('" + this.isbn + "','" + this.titulo + "','" + this.categoria + "')";
 		DataBaseHelper<Libro> helper = new DataBaseHelper<Libro>();
@@ -64,7 +65,7 @@ public class Libro {
 		return listaDeLibros;
 	}
 	
-	public void borrar() throws ClassNotFoundException,SQLException{
+	public void borrar() throws DataBaseException{
 		String consultaSQL = "delete from Libros where isbn='"+ this.isbn+"'";
 		DataBaseHelper<Libro> helper = new DataBaseHelper<Libro>();
 		helper.modificarRegistro(consultaSQL);
@@ -75,7 +76,7 @@ public class Libro {
 		List<Libro> listaDeLibros=helper.seleccionarRegistros(consultaSQL, Libro.class);
 		return listaDeLibros.get(0);
 	}
-	public void salvar()throws ClassNotFoundException,SQLException{
+	public void salvar()throws DataBaseException{
 		String consultaSQL="update Libros set titulo='"+ this.titulo+"',categoria='"+ categoria+"' where isbn='"+ isbn+"'";
 		DataBaseHelper<Libro> helper=new DataBaseHelper<Libro>();
 		helper.modificarRegistro(consultaSQL);

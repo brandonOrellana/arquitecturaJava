@@ -15,7 +15,7 @@ public class DataBaseHelper<T> {
 	private static final String USUARIO ="root";
 	private static final String CLAVE ="";
 	
-	public int modificarRegistro(String consultaSQL) throws DataBaseException{
+	public int modificarRegistro(String consultaSQL){
 
 		Connection conexion = null;
 		Statement sentencia = null;

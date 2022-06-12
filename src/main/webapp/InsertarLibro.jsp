@@ -15,14 +15,8 @@ pageEncoding="UTF-8"%>
 	String isbn = request.getParameter("isbn");  
 	String titulo = request.getParameter("titulo");
 	String categoria = request.getParameter("categoria");
-	try{
-		Libro libro=new Libro(isbn,titulo,categoria);
-		libro.insertar();
-	}catch (DataBaseException e) {%>
-		<%=e.getMessage()%>
-		<%=e.getCause().getMessage()%>
-	<%}
-	
+	Libro libro=new Libro(isbn,titulo,categoria);
+	libro.insertar();
 	response.sendRedirect("MostrarLibros.jsp");
 	
 	

@@ -1,4 +1,5 @@
 package com.arquitectura.connectors;
+import org.apache.logging.log4j.*;
 
 import java.lang.reflect.Method;
 import java.sql.Connection;
@@ -10,13 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataBaseHelper<T> {
+	private static Logger log= LogManager.getLogger(DataBaseHelper.class);
+	
 	private static final String DRIVER ="com.mysql.cj.jdbc.Driver";
 	private static final String URL ="jdbc:mysql://localhost:3306/arquitecturajava?serverTimezone=UTC";
 	private static final String USUARIO ="root";
 	private static final String CLAVE ="";
 	
 	public int modificarRegistro(String consultaSQL){
-
 		Connection conexion = null;
 		Statement sentencia = null;
 
@@ -33,10 +35,10 @@ public class DataBaseHelper<T> {
 			filasAfectadas = sentencia.executeUpdate(consultaSQL);
 
 		} catch (ClassNotFoundException e) {
-			System.out.println("Clse no encontrada" + e.getMessage());
+			log.error("Error de acceso al drive" + e.getMessage());
 			throw new DataBaseException("Clase no encontrada",e);
 		} catch (SQLException e) {
-			System.out.println("Error de SQL" + e.getMessage());
+			log.error("Error SQl" + e.getMessage());
 			throw new DataBaseException("Error sql",e);
 		} finally {
 
@@ -45,6 +47,7 @@ public class DataBaseHelper<T> {
 				try {
 					sentencia.close();
 				} catch (SQLException e) {
+					log.error("Error de con la sentencia" + e.getMessage());
 				}
 
 			}
@@ -53,6 +56,7 @@ public class DataBaseHelper<T> {
 				try {
 					conexion.close();
 				} catch (SQLException e) {
+					log.error("Error cerrando la conexion" + e.getMessage());
 				}
 			}
 
